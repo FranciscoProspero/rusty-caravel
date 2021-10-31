@@ -1,5 +1,6 @@
 use super::sender_can::SenderCANHandle;
 use super::commands;
+use super::receiver_can::receive_can;
 use std::io;
 use std::io::Write; 
 
@@ -54,12 +55,17 @@ impl StdInLines {
     }
 
     async fn execute_command(&mut self, cmd: BossCommand) -> impl std::fmt::Display {
-    
-        let test = match cmd {
+        
+        // let test = match cmd {
+        //     BossCommand::SendCan { id, message, cycle_time } => self.sender.send_can_message(id, message, cycle_time).await,
+        //     BossCommand::ReceiveCan { id, nr_of_messages } => receive_can(id, nr_of_messages),
+        // };
+        match cmd {
             BossCommand::SendCan { id, message, cycle_time } => self.sender.send_can_message(id, message, cycle_time).await,
-            BossCommand::ReceiveCan { id, nr_of_messages } => println!("Receive can - id {:?}, {:?} times.", id, nr_of_messages),
+            BossCommand::ReceiveCan { id, nr_of_messages } => receive_can(id, nr_of_messages).await,
         };
-        format!("ran command: {:?}", test)
+        //format!("ran command: {:?}", test)
+        format!("ran command: ")
     }
 }
 
